@@ -145,8 +145,10 @@ function keyRightUpHandler(e) {
 				  score++;
 				  // Если сбиты все кирпичики (счет = изначалное количество кирпичиков), то игра окончена: выводим сообщение и перезагружаем страницу
 				  if(score == brickRowCount*brickColumnCount) {
-				    //alert("YOU WIN, CONGRATS!");
-				    //document.location.reload();
+					paddleX = -50000
+x = -50000
+				    alert("YOU WIN, CONGRATS!");
+				    document.location.reload();
 				  }
 				}
 			  }
@@ -211,7 +213,8 @@ function keyRightUpHandler(e) {
 			spanResult.style.color = "black";
 			spanResult.innerHTML = "";
 			draw();
-			var gameOverText = document.getElementById("gameOverText");
+			 var gameOverText = document.getElementById("gameOverText");
+
 
 		}
 		
@@ -226,24 +229,6 @@ function keyRightUpHandler(e) {
 		  drawScore();
 		  drawLives();
 		  collisionDetection();
-		  var bricksLeft = 0;
-    for (var c = 0; c < brickColumnCount; c++) {
-        for (var r = 0; r < brickRowCount; r++) {
-            if (bricks[c][r].status == 1) {
-                bricksLeft++;
-            }
-        }
-    }
-	if (bricksLeft === 0) {
-        var gameOverText = document.getElementById("gameOverText");
-
-
-        // Останавливаем мячик
-        dx = 0;
-        dy = 0;
-        // Скрываем платформу
-        paddleX = -1000; // Переместите платформу за пределы экрана
-    }
 
 		  if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
 			dx = -dx;
