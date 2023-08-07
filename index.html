@@ -57,7 +57,7 @@
 		var score = 0;
 		// Количество жизней
 		var lives = 3;
-
+		
 		// Создаем массив состояний блоков-кирпичиков (1 - блок на месте, 0 - блока нет, так как он уже уничтожен)
 		var bricks = [];
 		// Проходимся по колонкам блоков-кирпичиков
@@ -93,7 +93,41 @@
 				leftPressed = false;
 			}
 		}
+		document.addEventListener("keydown", keyDownHandler, false);
+// Добавляем обработчик события "Поднята стрелка влево"
+document.addEventListener("keyup", keyUpHandler, false);
+// Добавляем обработчик события "Нажата стрелка вправо"
+document.addEventListener("keydown", keyRightHandler, false);
+// Добавляем обработчик события "Поднята стрелка вправо"
+document.addEventListener("keyup", keyRightUpHandler, false);
 
+// Функция для обработчика события "Нажата стрелка влево"
+function keyDownHandler(e) {
+    if (e.keyCode == 37) {
+        leftPressed = true;
+    }
+}
+
+// Функция для обработчика события "Поднята стрелка влево"
+function keyUpHandler(e) {
+    if (e.keyCode == 37) {
+        leftPressed = false;
+    }
+}
+
+// Функция для обработчика события "Нажата стрелка вправо"
+function keyRightHandler(e) {
+    if (e.keyCode == 39) {
+        rightPressed = true;
+    }
+}
+
+// Функция для обработчика события "Поднята стрелка вправо"
+function keyRightUpHandler(e) {
+    if (e.keyCode == 39) {
+        rightPressed = false;
+    }
+}
 		// Определение события "пересечение шарика и блока-кирпичика"
 		function collisionDetection() {
 		  // Проходимся по очереди по всем блокам-кирпичикам
@@ -177,7 +211,10 @@
 			spanResult.style.color = "black";
 			spanResult.innerHTML = "";
 			draw();
+			var gameOverText = document.getElementById("gameOverText");
+
 		}
+		
 
 		
 		// Рисуем все элементы и запускаем игру
@@ -189,6 +226,24 @@
 		  drawScore();
 		  drawLives();
 		  collisionDetection();
+		  var bricksLeft = 0;
+    for (var c = 0; c < brickColumnCount; c++) {
+        for (var r = 0; r < brickRowCount; r++) {
+            if (bricks[c][r].status == 1) {
+                bricksLeft++;
+            }
+        }
+    }
+	if (bricksLeft === 0) {
+        var gameOverText = document.getElementById("gameOverText");
+
+
+        // Останавливаем мячик
+        dx = 0;
+        dy = 0;
+        // Скрываем платформу
+        paddleX = -1000; // Переместите платформу за пределы экрана
+    }
 
 		  if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
 			dx = -dx;
@@ -219,16 +274,17 @@
 		  }
 
 		  if(rightPressed && paddleX < canvas.width-paddleWidth) {
-			paddleX -= 7;
+			paddleX += 7;
 		  }
 		  else if(leftPressed && paddleX > 0) {
-			paddleX += 7;
+			paddleX -= 7;
 		  }
 
 		  x += dx;
 		  y += dy;
 		  requestAnimationFrame(draw);
 		}
+		
 
 	</script>
 </body>
